@@ -7,10 +7,14 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 # Install system dependencies
+
+# Install system dependencies and the patched zlib package
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
+    zlib1g \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Install python dependencies
 COPY backend/requirements.txt /app/backend/requirements.txt
@@ -18,6 +22,10 @@ RUN pip install --no-cache-dir -r /app/backend/requirements.txt
 
 # Copy backend source code
 COPY backend /app/backend
+
+RUN useradd --system --create-home --uid 10001 appuser
+
+USER appuser
 
 EXPOSE 8000
 
