@@ -357,6 +357,12 @@ export function LunarScene3D({
     controls.minDistance = 0.25;
     controls.maxDistance = 180;
 
+    // Immediately yield control to user if they drag/pan/zoom
+    controls.addEventListener("start", () => {
+      targetCamPos = null;
+      targetCamLook = null;
+    });
+
     // ── 2. Multi-Layer Starfield & Milky Way ──────────────────────────────────
     // Layer A: Deep field background stars
     const deepStarGeo = new THREE.BufferGeometry();
@@ -869,10 +875,16 @@ export function LunarScene3D({
         bloomPass.threshold = 0.28;
       }
 
-      // Camera Easing Lerp
+      // Camera Easing Lerp: smoothly transitions camera to the target, then releases control to OrbitControls
       if (targetCamPos && targetCamLook) {
-        camera.position.lerp(targetCamPos, 0.045);
-        controls.target.lerp(targetCamLook, 0.045);
+        camera.position.lerp(targetCamPos, 0.055);
+        controls.target.lerp(targetCamLook, 0.055);
+
+        // When close enough to target, clear targetCamPos so user has 100% orbital freedom
+        if (camera.position.distanceTo(targetCamPos) < 0.05 && controls.target.distanceTo(targetCamLook) < 0.05) {
+          targetCamPos = null;
+          targetCamLook = null;
+        }
       }
 
       controls.update();

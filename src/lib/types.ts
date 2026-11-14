@@ -68,3 +68,19 @@ export interface ComparisonResponse {
   summaryNarrative: NarrativeSummary;
   engine: "typescript-client" | "python-fastapi";
 }
+
+export interface LunarEvaluationResult {
+  sunlight_percentage: number;
+  earth_los_percentage: number;
+  mission_viability_score: number;
+  recommendation_text: string;
+  instant_sun_elevation_deg: number;
+  instant_earth_elevation_deg: number;
+  is_sun_visible_now: boolean;
+  is_earth_visible_now: boolean;
+  site_elevation_km: number;
+  evaluation_window_days: number;
+  engine: "spiceypy-de421" | "geometric-fallback" | string;
+  computed_at: string;
+}
+
