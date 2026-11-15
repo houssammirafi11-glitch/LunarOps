@@ -66,7 +66,7 @@ export interface ComparisonResponse {
   };
   generatedAt: string;
   summaryNarrative: NarrativeSummary;
-  engine: "typescript-client" | "python-fastapi";
+  engine: "typescript-client" | "python-fastapi" | "spiceypy-de421" | "geometric-fallback";
 }
 
 export interface LunarEvaluationResult {

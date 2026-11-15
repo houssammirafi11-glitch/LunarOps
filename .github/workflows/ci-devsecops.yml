@@ -91,4 +91,4 @@ jobs:
           ignore-unfixed: true
           format: "table"
           severity: "CRITICAL,HIGH"
-        continue-on-error: true
+          exit-code: "0"
